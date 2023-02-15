@@ -1,5 +1,7 @@
 import {useEffect, useState} from "react";
 import MovieImageArr from "./MovieImages";
+import {Col, Container, Row, Card} from "react-bootstrap";
+import RankingGrid from "./RankingGrid";
 
 const RankItems = () => {
     const [items, setItems] = useState([]);
@@ -17,15 +19,27 @@ const RankItems = () => {
 
     return (
         <main>
-            <div className="items-not-ranked">
-                {
-                    items.length ? items.map(item =>
-                        <img key={item.id} id={`item-${item.id}`}
-                             src={MovieImageArr.find(o => o.id === item.imageId)?.image}/>
-                    ) : <div>Loading...</div>
-                }
-            </div>
-
+            <Container fluid>
+                <Row>
+                    <Col>
+                        <RankingGrid items={items} imgArr={MovieImageArr}/>
+                    </Col>
+                </Row>
+                <Row>
+                    {items.map(item => (
+                        <Col key={item.id}>
+                            <Card>
+                                <Card.Img variant={"top"}
+                                          src={MovieImageArr.find(el => el.id === item.imageId)?.image}
+                                />
+                                <Card.Body>
+                                    <Card.Title>{item.title}</Card.Title>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
+            </Container>
         </main>
     )
 }
