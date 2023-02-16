@@ -9,7 +9,14 @@
         let totalCollection = cellCollection.length
         if (rankNum > 0) {
             let item = items.find(o => o.ranking === rankNum);
-            cellCollection.push(<div key={`rank-item-${item ? item.id: totalCollection}-${rankNum}`} id={`rank-${rankNum}`} onDrop={drop} onDragOver={allowDrop} className="rank-cell">
+            console.log(item)
+            cellCollection.push(
+                <div key={`rank-item-${item ? item.id: totalCollection}-${rankNum}`} 
+                     id={`rank-${rankNum}`} 
+                     onDrop={drop} 
+                     onDragOver={allowDrop} 
+                     className="rank-cell"
+                >
                 {(item != null) ?
                     <img id={`item-${item.id}`} src={imgArr.find(o => o.id === item.imageId)?.image} draggable="true"
                          onDragStart={drag}/>
@@ -56,10 +63,10 @@
     }
 
     function createRowsForGrid() {
-        rankingGrid.push(<div key={1}>{cellCollectionTop}</div>)
-        rankingGrid.push(<div key={2}>{cellCollectionMiddle}</div>)
-        rankingGrid.push(<div key={3}>{cellCollectionBottom}</div>)
-        rankingGrid.push(<div key={4}>{cellCollectionWorst}</div>)
+        rankingGrid.push(<div className="rank-row top-tier" key={1}>{cellCollectionTop}</div>)
+        rankingGrid.push(<div className="rank-row middle-tier" key={2}>{cellCollectionMiddle}</div>)
+        rankingGrid.push(<div className="rank-row bottom-tier" key={3}>{cellCollectionBottom}</div>)
+        rankingGrid.push(<div className="rank-row worst-tier" key={4}>{cellCollectionWorst}</div>)
         return rankingGrid
     }
 

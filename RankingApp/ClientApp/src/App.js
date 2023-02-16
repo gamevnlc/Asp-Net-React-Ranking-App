@@ -6,6 +6,7 @@ import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
 
 import './custom.css'
+import './App.scss'
 import RankItems from "./components/RankItems";
 
 export default class App extends Component {
