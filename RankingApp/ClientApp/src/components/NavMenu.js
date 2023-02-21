@@ -23,7 +23,8 @@ export class NavMenu extends Component {
                   <Nav.Link as={Link} to="/">Home</Nav.Link>
                   <Nav.Link as={Link} to="/counter">Counter</Nav.Link>
                   <Nav.Link as={Link} to="/fetch-data">Fetch data</Nav.Link>
-                  <Nav.Link as={Link} to="/rank-items">Rank Items</Nav.Link>
+                  <Nav.Link as={Link} to="/rank-movies">Rank Movies</Nav.Link>
+                  <Nav.Link as={Link} to="/rank-albums">Rank Movies</Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Container>

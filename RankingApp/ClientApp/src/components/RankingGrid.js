@@ -9,7 +9,6 @@
         let totalCollection = cellCollection.length
         if (rankNum > 0) {
             let item = items.find(o => o.ranking === rankNum);
-            console.log(item)
             cellCollection.push(
                 <div key={`rank-item-${item ? item.id: totalCollection}-${rankNum}`} 
                      id={`rank-${rankNum}`} 

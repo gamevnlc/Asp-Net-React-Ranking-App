@@ -2,13 +2,16 @@ import {useEffect, useState} from "react";
 import MovieImageArr from "./MovieImages";
 import {Col, Container, Row, Card} from "react-bootstrap";
 import RankingGrid from "./RankingGrid";
+import ItemCollection from "./ItemCollection";
 
-const RankItems = () => {
-    const [items, setItems] = useState([]);
-    const dateType = 1;
+const RankItems = ({items, setItems, dataType, imgArr, localStorageKey }) => {
 
+    const [reload, setReload] = useState(false);
+    
+    function Reload() {
+        setReload(true);
+    }
     function drag(ev) {
-        console.log(ev)
         ev.dataTransfer.setData("text", ev.target.id)
     }
 
@@ -33,22 +36,44 @@ const RankItems = () => {
     }
 
     useEffect(() => {
-        fetch(`item/${dateType}`)
-            .then(results => {
-                return results.json()
+        if (items == null) {
+            getDataFromApi();
+        }
+    }, [dataType])
+
+    function getDataFromApi() {
+        fetch(`item/${dataType}`)
+            .then((results) => {
+                return results.json();
             })
             .then(data => {
-                setItems(data)
+
+                setItems(data);
             })
-    }, [])
+    }
+
+    useEffect(() => {
+        if (items != null) {
+            localStorage.setItem(localStorageKey, JSON.stringify(items));
+        }
+        setReload(false);
+    }, [items])
+
+    useEffect(() => {
+        if (reload === true) {
+            getDataFromApi();
+        }
+    },[reload])
+
 
     return (
+        (items != null) ?
         <main>
             <Container fluid>
                 <Row>
                     <Col className="d-flex justify-content-center">
                         <RankingGrid items={items}
-                                     imgArr={MovieImageArr}
+                                     imgArr={imgArr}
                                      drag={drag}
                                      drop={drop}
                                      allowDrop={allowDrop}
@@ -56,26 +81,14 @@ const RankItems = () => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={12} className="d-flex justify-content-around">
-                        {items.map(item => (
-                            <Card key={item.id} className="un-ranking-item">
-                                <Card.Img variant={"top"}
-                                          src={MovieImageArr.find(el => el.id === item.imageId)?.image}
-                                          id={`item-${item.id}`}
-                                          style={{cursor: "pointer"}}
-                                          draggable="true"
-                                          onDragStart={drag}
-
-                                />
-                                <Card.Body>
-                                    <Card.Title className="small">{item.title}</Card.Title>
-                                </Card.Body>
-                            </Card>
-                        ))}
+                    <ItemCollection items={items} drag={drag} imgArr={imgArr}/>
+                    <Col xs={12}>
+                        <button onClick={Reload} className="reload" style={{ "marginTop": "10px" }}> <span className="text" >Reload</span > </button>
                     </Col>
                 </Row>
+                
             </Container>
-        </main>
+        </main> : <main>Loading...</main> 
     )
 }
 
